@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        width: 88%;
+        max-width: 30em;
+        margin: 1em auto;
+        line-height: 1.5;
+      }
+
+      label,
+      input {
+        display: block;
+        width: 100%;
+      }
+
+      input,
+      button {
+        font: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>To do</h1>
+
+    <div id="app">Loading...</div>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+
+    <script>
+      "use strict";
+
+      const container = document.getElementById("app");
+      const root = ReactDOM.createRoot(container);
+
+      const app = React.createElement(App, {
+        todos: [
+          {
+            id: "e3a803e7-8925-4fd0-9257-bce37b07739f",
+            name: "Walk the dogs",
+          },
+          {
+            id: "cc0d1616-6121-4e3d-8253-92d563fe4bbe",
+            name: "Work out",
+          },
+          {
+            id: "de037c1e-d48d-4069-ab7b-06b209c7220e",
+            name: "Buy groceries",
+          },
+        ],
+      });
+
+      function App(props) {
+        const [todos, setTodos] = React.useState(props.todos);
+        const [newTodo, setNewTodo] = React.useState("");
+
+        function onSubmit(event) {
+          event.preventDefault();
+          setTodos([
+            ...todos,
+            { id: window.crypto.randomUUID(), name: newTodo },
+          ]);
+          setNewTodo("");
+        }
+
+        function onChange(event) {
+          setNewTodo(event.target.value);
+        }
+
+        const virtualDOM = React.createElement(
+          React.Fragment,
+          null,
+          React.createElement(
+            "form",
+            { onSubmit },
+            React.createElement(
+              "p",
+              null,
+              React.createElement(
+                "label",
+                { htmlFor: "new-todo" },
+                "What do you need to do?"
+              ),
+              React.createElement("input", {
+                id: "new-todo",
+                type: "text",
+                value: newTodo,
+                required: true,
+                onChange,
+              })
+            ),
+            React.createElement(
+              "p",
+              null,
+              React.createElement("button", { type: "submit" }, "Add todo")
+            )
+          ),
+          React.createElement(
+            "ul",
+            null,
+            todos.map(function (todo) {
+              return React.createElement("li", { key: todo.id }, todo.name);
+            })
+          )
+        );
+
+        console.log(virtualDOM);
+
+        return virtualDOM;
+      }
+
+      root.render(app);
+    </script>
+  </body>
+</html>
