@@ -27,11 +27,6 @@ function App(props) {
     return React.createElement("li", { key: todo.id }, todo.name);
   });
 
-  function addTodo(name) {
-    const newToDo = { id: window.crypto.randomUUID(), name };
-    setTodos([...todos, newToDo]);
-  }
-
   const virtualDOM = React.createElement(
     React.Fragment,
     null,
@@ -41,7 +36,15 @@ function App(props) {
       : React.createElement("ul", null, listItems)
   );
 
-  console.log(virtualDOM);
+  function addTodo(name) {
+    const newToDo = { id: window.crypto.randomUUID(), name };
+    setTodos([...todos, newToDo]);
+  }
+
+  React.useEffect(() => {
+    console.log(virtualDOM);
+  }, [virtualDOM]);
+
   return virtualDOM;
 }
 
