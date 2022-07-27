@@ -23,9 +23,9 @@ const app = React.createElement(App, {
 function App(props) {
   const [todos, setTodos] = React.useState(props.todos);
 
-  const listItems = todos.map(function (todo) {
-    return React.createElement("li", { key: todo.id }, todo.name);
-  });
+  const listItems = todos.map((todo) =>
+    React.createElement("li", { key: todo.id }, todo.name)
+  );
 
   const virtualDOM = React.createElement(
     React.Fragment,
