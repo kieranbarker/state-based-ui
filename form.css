@@ -1,0 +1,10 @@
+label,
+input {
+  display: block;
+  width: 100%;
+}
+
+input,
+button {
+  font: inherit;
+}
