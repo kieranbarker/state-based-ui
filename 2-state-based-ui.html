@@ -69,8 +69,10 @@
 
       function handleSubmit(event) {
         event.preventDefault();
+
         data.todos.push(input.value);
         app.innerHTML = template(data);
+
         input.value = "";
       }
 

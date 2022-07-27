@@ -56,11 +56,9 @@
           todos: ["Walk the dogs", "Work out", "Buy groceries"],
         },
         {
-          set() {
-            const success = Reflect.set(...arguments);
-            if (success) {
-              app.innerHTML = template(data);
-            }
+          set(...args) {
+            const success = Reflect.set(...args);
+            if (success) app.innerHTML = template(data);
             return success;
           },
         }
