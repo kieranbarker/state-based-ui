@@ -1,9 +1,15 @@
-"use strict";
+import {
+  Fragment,
+  createElement,
+  render,
+} from "https://unpkg.com/preact@latest?module";
 
-const container = document.querySelector("#app");
-const root = ReactDOM.createRoot(container);
+import {
+  useEffect,
+  useState,
+} from "https://unpkg.com/preact@latest/hooks/dist/hooks.module.js?module";
 
-const app = React.createElement(App, {
+const app = createElement(App, {
   todos: [
     {
       id: "e3a803e7-8925-4fd0-9257-bce37b07739f",
@@ -21,19 +27,19 @@ const app = React.createElement(App, {
 });
 
 function App(props) {
-  const [todos, setTodos] = React.useState(props.todos);
+  const [todos, setTodos] = useState(props.todos);
 
-  const listItems = todos.map((todo) =>
-    React.createElement("li", { key: todo.id }, todo.name)
-  );
-
-  const virtualDOM = React.createElement(
-    React.Fragment,
+  const virtualDOM = createElement(
+    Fragment,
     null,
-    React.createElement(Form, { onSubmit: addTodo }),
+    createElement(Form, { onSubmit: addTodo }),
     todos.length < 1
-      ? React.createElement("p", null, "There aren't any todos yet.")
-      : React.createElement("ul", null, listItems)
+      ? createElement("p", null, "There aren't any todos yet.")
+      : createElement(
+          "ul",
+          null,
+          todos.map((todo) => createElement("li", { key: todo.id }, todo.name))
+        )
   );
 
   function addTodo(name) {
@@ -41,7 +47,7 @@ function App(props) {
     setTodos([...todos, newToDo]);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log(virtualDOM);
   }, [virtualDOM]);
 
@@ -49,40 +55,40 @@ function App(props) {
 }
 
 function Form(props) {
-  const [name, setName] = React.useState("");
+  const [name, setName] = useState("");
 
-  const label = React.createElement(
+  const label = createElement(
     "label",
-    { htmlFor: "new-todo" },
+    { for: "new-todo" },
     "What do you need to do?"
   );
 
-  const input = React.createElement("input", {
+  const input = createElement("input", {
     id: "new-todo",
     type: "text",
     value: name,
     required: true,
-    onChange,
+    onInput,
   });
 
-  const button = React.createElement("button", { type: "submit" }, "Add todo");
+  const button = createElement("button", { type: "submit" }, "Add todo");
 
-  function onChange(event) {
+  function onInput(event) {
     setName(event.target.value);
   }
 
   function onSubmit(event) {
     event.preventDefault();
-    props.onSubmit(name);
+    if (name.trim()) props.onSubmit(name);
     setName("");
   }
 
-  return React.createElement(
+  return createElement(
     "form",
     { onSubmit },
-    React.createElement("p", null, label, input),
-    React.createElement("p", null, button)
+    createElement("p", null, label, input),
+    createElement("p", null, button)
   );
 }
 
-root.render(React.createElement(React.StrictMode, null, app));
+render(app, document.getElementById("app"));
