@@ -54,6 +54,7 @@ function App(props) {
 }
 
 function Form(props) {
+  const inputId = "new-todo";
   const [name, setName] = useState("");
 
   function onInput(event) {
@@ -78,9 +79,9 @@ function Form(props) {
     h(
       "p",
       null,
-      h("label", { for: "new-todo" }, "What do you need to do?"),
+      h("label", { for: inputId }, "What do you need to do?"),
       h("input", {
-        id: "new-todo",
+        id: inputId,
         type: "text",
         value: name,
         required: true,
