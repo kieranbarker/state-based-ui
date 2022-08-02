@@ -2,6 +2,7 @@ import { Fragment, h, render } from "https://unpkg.com/preact@latest?module";
 
 import {
   useEffect,
+  useMemo,
   useState,
 } from "https://unpkg.com/preact@latest/hooks/dist/hooks.module.js?module";
 
@@ -34,7 +35,9 @@ function App(props) {
       : h(
           "ul",
           null,
-          todos.map((todo) => h("li", { key: todo.id }, todo.name))
+          useMemo(() =>
+            todos.map((todo) => h("li", { key: todo.id }, todo.name), [todos])
+          )
         )
   );
 
