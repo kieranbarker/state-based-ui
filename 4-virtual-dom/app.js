@@ -35,8 +35,9 @@ function App(props) {
       : h(
           "ul",
           null,
-          useMemo(() =>
-            todos.map((todo) => h("li", { key: todo.id }, todo.name), [todos])
+          useMemo(
+            () => todos.map((todo) => h("li", { key: todo.id }, todo.name)),
+            [todos]
           )
         )
   );
