@@ -1,15 +1,11 @@
-import {
-  Fragment,
-  createElement,
-  render,
-} from "https://unpkg.com/preact@latest?module";
+import { Fragment, h, render } from "https://unpkg.com/preact@latest?module";
 
 import {
   useEffect,
   useState,
 } from "https://unpkg.com/preact@latest/hooks/dist/hooks.module.js?module";
 
-const app = createElement(App, {
+const app = h(App, {
   todos: [
     {
       id: "e3a803e7-8925-4fd0-9257-bce37b07739f",
@@ -29,16 +25,16 @@ const app = createElement(App, {
 function App(props) {
   const [todos, setTodos] = useState(props.todos);
 
-  const virtualDOM = createElement(
+  const virtualDOM = h(
     Fragment,
     null,
-    createElement(Form, { onSubmit: addTodo }),
+    h(Form, { onSubmit: addTodo }),
     todos.length < 1
-      ? createElement("p", null, "There aren't any todos yet.")
-      : createElement(
+      ? h("p", null, "There aren't any todos yet.")
+      : h(
           "ul",
           null,
-          todos.map((todo) => createElement("li", { key: todo.id }, todo.name))
+          todos.map((todo) => h("li", { key: todo.id }, todo.name))
         )
   );
 
@@ -57,37 +53,38 @@ function App(props) {
 function Form(props) {
   const [name, setName] = useState("");
 
-  const label = createElement(
-    "label",
-    { for: "new-todo" },
-    "What do you need to do?"
-  );
-
-  const input = createElement("input", {
-    id: "new-todo",
-    type: "text",
-    value: name,
-    required: true,
-    onInput,
-  });
-
-  const button = createElement("button", { type: "submit" }, "Add todo");
-
   function onInput(event) {
     setName(event.target.value);
   }
 
   function onSubmit(event) {
     event.preventDefault();
-    if (name.trim()) props.onSubmit(name);
+
+    const trimmedName = name.trim();
+
+    if (trimmedName) {
+      props.onSubmit(trimmedName);
+    }
+
     setName("");
   }
 
-  return createElement(
+  return h(
     "form",
     { onSubmit },
-    createElement("p", null, label, input),
-    createElement("p", null, button)
+    h(
+      "p",
+      null,
+      h("label", { for: "new-todo" }, "What do you need to do?"),
+      h("input", {
+        id: "new-todo",
+        type: "text",
+        value: name,
+        required: true,
+        onInput,
+      })
+    ),
+    h("p", null, h("button", { type: "submit" }, "Add todo"))
   );
 }
 
